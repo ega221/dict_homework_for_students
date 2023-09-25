@@ -54,12 +54,12 @@ def get_parsed_employees_info() -> list[dict[str, int | str]]:
     """Функция парсит данные, полученные из внешнего API и приводит их к стандартизированному виду."""
     employees_info = get_employees_info()
     parsed_employees_info = []
-    KEY_SET = ('id', 'name', 'last_name', 'age', 'position', 'salary')
+    ALLOWED_KEYS = ('id', 'name', 'last_name', 'age', 'position', 'salary')
 
     for employee_info in employees_info:
         info = employee_info.split()
         employee = dict()
-        for key in KEY_SET:
+        for key in ALLOWED_KEYS:
             employee[key] = get_value_by_key(info, key)
         parsed_employees_info.append(employee)
 
