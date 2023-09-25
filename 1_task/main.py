@@ -42,7 +42,7 @@ def get_employees_info() -> list[str]:
 def get_value_by_key(info: list[str], key: str) -> int | str:
     if key in info:
         index = info.index(key)
-        if (key == "age" or key == "id"):
+        if key in ('age', 'id'):
             return int(info[index + 1])
         elif key == "salary":
             return Decimal(info[index + 1])
