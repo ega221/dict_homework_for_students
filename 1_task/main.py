@@ -39,28 +39,25 @@ def get_employees_info() -> list[str]:
     )).split(SPLIT_SYMBOL)
 
 
-def get_value_by_key(info: list[str], key: str) -> int | str:
-    if key in info:
-        index = info.index(key)
-        if key in ('age', 'id'):
-            return int(info[index + 1])
-        elif key == "salary":
-            return Decimal(info[index + 1])
-        else:
-            return info[index + 1]
-
-
 def get_parsed_employees_info() -> list[dict[str, int | str]]:
     """Функция парсит данные, полученные из внешнего API и приводит их к стандартизированному виду."""
     employees_info = get_employees_info()
     parsed_employees_info = []
-    ALLOWED_KEYS = ('id', 'name', 'last_name', 'age', 'position', 'salary')
+    dict_template = {
+        'id': int,
+        'name': str,
+        'last_name': str,
+        'age': int,
+        'position': str,
+        'salary': Decimal,
+    }
 
     for employee_info in employees_info:
         info = employee_info.split()
         employee = dict()
-        for key in ALLOWED_KEYS:
-            employee[key] = get_value_by_key(info, key)
+        for key, value in zip(info[::2], info[1::2]):
+            if key in dict_template:
+                employee[key] = dict_template[key](value)
         parsed_employees_info.append(employee)
 
     return parsed_employees_info
